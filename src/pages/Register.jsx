@@ -66,7 +66,11 @@ const Register = () => {
         setError(data.message || 'Registration failed.');
       }
     } catch (err) {
-      setError(err?.response?.data?.message || 'Server error. Please try again.');
+      if (!err.response) {
+        setError('Cannot connect to backend server. Please make sure Spring Boot is running on port 8080.');
+      } else {
+        setError(err.response.data?.message || 'Registration failed. Please check your details.');
+      }
     } finally {
       setLoading(false);
     }
